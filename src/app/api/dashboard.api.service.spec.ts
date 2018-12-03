@@ -5,7 +5,7 @@ import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 
 import { concatMap, tap, map } from 'rxjs/operators';
 
-import { Dashboard } from '../models/dashboard.model';
+import { Dashboard } from '../models';
 import { DashboardApiService } from './dashboard.api.service';
 import { DashboardInMemoryDataApiService } from './dashboard-in-memory-data.api.service';
 

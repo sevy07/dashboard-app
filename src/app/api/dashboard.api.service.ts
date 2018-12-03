@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { tap, catchError, map } from 'rxjs/operators';
 
-import { Dashboard } from '../models/dashboard.model';
+import { Dashboard } from '../models';
 
 const cudOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
@@ -18,7 +18,6 @@ export class DashboardApiService {
 
   getDashboards(): Observable<Dashboard[]> {
     return this.http.get<Dashboard[]>(this.dashboardsUrl).pipe(
-      tap(data => console.log(data)), // eyeball results in the console
       catchError(this.handleError)
     );
   }
