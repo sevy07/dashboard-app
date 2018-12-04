@@ -1,5 +1,5 @@
 import { EntityState } from '@ngrx/entity';
-import { Dashboard } from '../../models/dashboard.model';
+import { Dashboard } from '../models';
 
 export enum StateStatus {
   ready = 'ready',
@@ -9,7 +9,7 @@ export enum StateStatus {
 
 export interface State extends EntityState<Dashboard> {
   // additional entities state properties
-  selectedDashboardId: number | null;
+  selectedDashboardId: string | null;
 
   stateStatus: StateStatus;
 }

@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 
-import { Dashboard } from '../../models';
+import { Dashboard } from '../models';
 import { Observable } from 'rxjs';
 
 export enum DashboardActionTypes {
@@ -12,11 +12,11 @@ export enum DashboardActionTypes {
   ADD_DASHBOARD = '[Dashboard] Add Dashboard',
   UPDATE_DASHBOARD = '[Dashboard] Update Dashboard',
   DELETE_DASHBOARD = '[Dashboard] Delete Dashboard',
-  SELECT_DASHBOARD = '[Dashboard] Update Dashboard',
-  CLEAR_SELECTION = '[Dashboard] Update Dashboard'
+  SELECT_DASHBOARD = '[Dashboard] Select Dashboard',
+  CLEAR_SELECTION = '[Dashboard] Clear selected Dashboard'
 }
 
-export namespace Actions {
+export namespace DashboardActions {
   export class LoadDashboards implements Action {
     readonly type = DashboardActionTypes.LOAD_DASHBOARDS;
 
@@ -38,7 +38,7 @@ export namespace Actions {
   export class AddDashboard implements Action {
     readonly type = DashboardActionTypes.ADD_DASHBOARD;
 
-    constructor(public payload: { dashboard: Dashboard }) { }
+    constructor(public payload: Dashboard) { }
   }
 
   export class UpdateDashboard implements Action {
@@ -67,11 +67,11 @@ export namespace Actions {
 }
 
 export type DashboardActionsUnion =
-  | Actions.LoadDashboards
-  | Actions.UpdateDashboards
-  | Actions.FailDashboards
-  | Actions.AddDashboard
-  | Actions.UpdateDashboard
-  | Actions.SelectDashboard
-  | Actions.ClearSelection
-  | Actions.DeleteDashboard;
+  | DashboardActions.LoadDashboards
+  | DashboardActions.UpdateDashboards
+  | DashboardActions.FailDashboards
+  | DashboardActions.AddDashboard
+  | DashboardActions.UpdateDashboard
+  | DashboardActions.SelectDashboard
+  | DashboardActions.ClearSelection
+  | DashboardActions.DeleteDashboard;
