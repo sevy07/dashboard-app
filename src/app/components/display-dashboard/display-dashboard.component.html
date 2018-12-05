@@ -1,0 +1,7 @@
+<p>
+  display-dashboard works!
+</p>
+
+<div *ngIf="dashboard$ | async as dashboard">
+  <pre>{{dashboard | json}}</pre>
+</div>

@@ -1,0 +1,13 @@
+<h2>Here are some dashboards </h2>
+<button>Add Dashboard</button>
+<div *ngIf="selectedDashboardId$ | async as selectedDashboardId">
+  {{selectedDashboardId}}
+</div>
+<div *ngIf="dashboards$ | async as dashboards">
+  <li *ngFor="let dashboard of dashboards">
+    <pre>{{dashboard | json}}</pre>
+    <button (click)="deleteDashboard(dashboard)">Delete</button>
+    <button (click)="editDashboard(dashboard)">Edit</button>
+    <button (click)="displayDashboard(dashboard)">Display</button>
+  </li>
+</div>

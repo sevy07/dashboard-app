@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import {Observable} from 'rxjs';
-
-import { Dashboard } from './models';
 import { DashboardService } from './services';
 
 @Component({
@@ -13,14 +10,11 @@ import { DashboardService } from './services';
 export class AppComponent implements OnInit {
   title = 'dashboard-app';
 
-  public dashboards$: Observable<Dashboard[]>;
-
-  constructor(private service: DashboardService) {
-    this.dashboards$ = this.service.dashboards$;
-  }
+  constructor(private service: DashboardService) { }
 
 
   ngOnInit() {
     this.service.getDashboards();
   }
+
 }

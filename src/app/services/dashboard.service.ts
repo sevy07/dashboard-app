@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 
 import { Dashboard } from '../models';
 import { DashboardApiService } from '../api';
-import { DashboardActions, DashboardState, selectAllDashboards } from '../store';
+import { DashboardActions, DashboardState, selectAllDashboards, selectCurrentDashboard, selectCurrentDashboardId } from '../store';
 
 /**
  * Dashboard service
@@ -23,8 +23,20 @@ export class DashboardService {
    */
   public dashboards$: Observable<Dashboard[]>;
 
+  /**
+   * Observable of the currently selected dashboard id
+   */
+  public selectedDashboardId$: Observable<string>;
+
+  /**
+   * Observable of the currently selected dashboard
+   */
+  public selectedDashboard$: Observable<Dashboard>;
+
   constructor(private api: DashboardApiService, public store: Store<DashboardState>) {
     this.dashboards$ = store.pipe(select(selectAllDashboards));
+    this.selectedDashboardId$ = store.pipe(select(selectCurrentDashboardId));
+    this.selectedDashboard$ = store.pipe(select(selectCurrentDashboard));
    }
 
   /**

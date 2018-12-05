@@ -14,10 +14,15 @@ import { DashboardApiService, DashboardInMemoryDataApiService } from './api';
 import { DashboardService } from './services';
 import { reducer as dashboardReducer, DashboardEffect} from './store';
 
+import { DashboardListComponent, DisplayDashboardComponent, EditDashboardComponent } from './components';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DashboardListComponent,
+    DisplayDashboardComponent,
+    EditDashboardComponent
   ],
   imports: [
     BrowserModule,
