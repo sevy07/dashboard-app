@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+
+import {Observable} from 'rxjs';
 
 import { Dashboard } from '../models';
 import { DashboardApiService } from '../api';
-import { DashboardActions, DashboardState } from '../store';
+import { DashboardActions, DashboardState, selectAllDashboards } from '../store';
 
 /**
  * Dashboard service
@@ -11,7 +13,19 @@ import { DashboardActions, DashboardState } from '../store';
 @Injectable()
 export class DashboardService {
 
-  constructor(private api: DashboardApiService, public store: Store<DashboardState>) { }
+  /**
+   * Observable of the Dashboard state
+   */
+  public dashboardState$: Observable<DashboardState>;
+
+  /**
+   * Observable of the Dashboard collection
+   */
+  public dashboards$: Observable<Dashboard[]>;
+
+  constructor(private api: DashboardApiService, public store: Store<DashboardState>) {
+    this.dashboards$ = store.pipe(select(selectAllDashboards));
+   }
 
   /**
    * Retrieves the dashboard form the back-end
