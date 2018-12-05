@@ -10,16 +10,16 @@ import { DashboardApiService, DashboardInMemoryDataApiService } from '../api';
 import { Dashboard } from '../models';
 
 import { DashboardActions } from './dashboard.actions';
-import { State, StateStatus } from './dashboard.state';
+import { StateStatus } from './dashboard.state';
 import { adapter, initialState, getSelectedDashboardId, reducer } from './dashboard.reducer';
 import { DashboardEffect } from './dashboard.effect';
 
 describe('Dashboard store', () => {
 
   let dashboardApiService: DashboardApiService;
-  const dashboarOne = new Dashboard('test one', '', 1);
-  const dashboardTwo = new Dashboard('test two', '', 2);
-  const fullState = adapter.addAll([dashboarOne, dashboardTwo], initialState);
+  const dashboardOne = new Dashboard('test one', '', '1');
+  const dashboardTwo = new Dashboard('test two', '', '2');
+  const fullState = adapter.addAll([dashboardOne, dashboardTwo], initialState);
 
   beforeAll(() => getTestBed().platform || TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting()));
 
@@ -51,14 +51,15 @@ describe('Dashboard store', () => {
     describe('on LoadDashboards action', () => {
 
       it('should keep the content', () => {
-        const state = reducer(fullState, new DashboardActions.LoadDashboards(dashboardApiService.getDashboards()));
+        const state = reducer(fullState,
+          new DashboardActions.LoadDashboards({request: dashboardApiService.getDashboards()}));
         Object.keys(fullState.entities).forEach((id) => {
           expect(state.entities[id]).toEqual(fullState.entities[id]);
         });
       });
 
       it('should update the status to loading', () => {
-        const state = reducer(fullState, new DashboardActions.LoadDashboards(dashboardApiService.getDashboards()));
+        const state = reducer(fullState, new DashboardActions.LoadDashboards({request: dashboardApiService.getDashboards()}));
         expect(state.stateStatus).toEqual(StateStatus.loading);
       });
     });
@@ -68,7 +69,7 @@ describe('Dashboard store', () => {
       it('should update the content', async(() => {
         dashboardApiService.getDashboards()
           .subscribe(dashboards => {
-            const state = reducer(initialState, new DashboardActions.UpdateDashboards(dashboards));
+            const state = reducer(initialState, new DashboardActions.UpdateDashboards({dashboards: dashboards}));
             expect(state.ids.length).toEqual(dashboards.length);
 
             dashboards.forEach(dashboard => {
@@ -84,7 +85,7 @@ describe('Dashboard store', () => {
       it('should update the status to ready', async(() => {
         dashboardApiService.getDashboards()
           .subscribe(dashboards => {
-            const state = reducer(initialState, new DashboardActions.UpdateDashboards(dashboards));
+            const state = reducer(initialState, new DashboardActions.UpdateDashboards({dashboards: dashboards}));
             expect(state.stateStatus).toEqual(StateStatus.ready);
           });
       }));
@@ -106,16 +107,16 @@ describe('Dashboard store', () => {
     describe('on AddDashboard action', () => {
 
       it('should update the content', () => {
-        const dashboardToAdd = new Dashboard('test', '', 1);
-        const state = reducer(initialState, new DashboardActions.AddDashboard(dashboardToAdd));
+        const dashboardToAdd = new Dashboard('test', '', '1');
+        const state = reducer(initialState, new DashboardActions.AddDashboard({dashboard: dashboardToAdd}));
         expect(state.ids.length).toEqual(1);
-        expect(state.ids[0]).toEqual(1);
+        expect(state.ids[0]).toEqual('1');
         expect(state.entities[1]).toBe(dashboardToAdd);
       });
 
       it('should keep the status', () => {
-        const dashboardToAdd = new Dashboard('test', '', 1);
-        const state = reducer(initialState, new DashboardActions.AddDashboard(dashboardToAdd));
+        const dashboardToAdd = new Dashboard('test', '', '1');
+        const state = reducer(initialState, new DashboardActions.AddDashboard({dashboard: dashboardToAdd}));
         expect(state.stateStatus).toEqual(initialState.stateStatus);
       });
     });
@@ -123,17 +124,17 @@ describe('Dashboard store', () => {
     describe('on UpdateDashboard action', () => {
 
       it('should update the content', () => {
-        const updatedDashboard = new Dashboard('new Title', 'new Description', 1);
+        const updatedDashboard = new Dashboard('new Title', 'new Description', '1');
         const state = reducer(
           fullState,
           new DashboardActions.UpdateDashboard({ dashboard: { id: updatedDashboard.id, changes: updatedDashboard}}));
         expect(state.ids.length).toEqual(2);
-        expect(state.ids[0]).toEqual(1);
-        expect(state.entities[1]).toEqual(jasmine.objectContaining(updatedDashboard));
+        expect(state.ids[0]).toEqual('1');
+        expect(state.entities['1']).toEqual(jasmine.objectContaining(updatedDashboard));
       });
 
       it('should keep the status', () => {
-        const updatedDashboard = new Dashboard('new Title', 'new Description', 1);
+        const updatedDashboard = new Dashboard('new Title', 'new Description', '1');
         const state = reducer(
           fullState,
           new DashboardActions.UpdateDashboard({ dashboard: { id: updatedDashboard.id, changes: updatedDashboard } }));
@@ -191,8 +192,8 @@ describe('Dashboard store', () => {
       it('should update the content', () => {
         const state = reducer(fullState, new DashboardActions.DeleteDashboard({ id: '1' }));
         expect(state.ids.length).toEqual(1);
-        expect(state.ids[0]).toEqual(2);
-        expect(state.entities[1]).not.toBeDefined();
+        expect(state.ids[0]).toEqual('2');
+        expect(state.entities['1']).not.toBeDefined();
       });
 
       it('should keep the status', () => {
@@ -219,17 +220,17 @@ describe('Dashboard store', () => {
     describe('on LoadDashboards action', () => {
 
       it('should do a UpdateDashboards if succeded', async(() => {
-        const req = new BehaviorSubject([dashboarOne]);
+        const req = new BehaviorSubject([dashboardOne]);
 
         dashboardEffect.loadDashboards$.subscribe(
           (action) => result.push(action),
           fail,
           () => {
-            expect(result).toEqual([new DashboardActions.UpdateDashboards([dashboarOne])]);
+            expect(result).toEqual([new DashboardActions.UpdateDashboards({dashboards : [dashboardOne]})]);
           }
         );
 
-        actions.next(new DashboardActions.LoadDashboards(req as any));
+        actions.next(new DashboardActions.LoadDashboards({request: req as any}));
         actions.complete();
 
       }));
@@ -246,7 +247,7 @@ describe('Dashboard store', () => {
         );
 
         req.error('error');
-        actions.next(new DashboardActions.LoadDashboards(req as any));
+        actions.next(new DashboardActions.LoadDashboards({request: req as any}));
         actions.complete();
       }));
     });

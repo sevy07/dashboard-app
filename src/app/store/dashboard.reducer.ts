@@ -3,18 +3,18 @@ import { EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { Dashboard } from '../models';
 
 import { DashboardActionTypes, DashboardActionsUnion } from './dashboard.actions';
-import { State, StateStatus } from './dashboard.state';
+import { DashboardState, StateStatus } from './dashboard.state';
 
 export const adapter: EntityAdapter<Dashboard> = createEntityAdapter<Dashboard>();
 
-export const initialState: State = adapter.getInitialState({
+export const initialState: DashboardState = adapter.getInitialState({
   // additional entity state properties
   selectedDashboardId: null,
 
   stateStatus: StateStatus.ready
 });
 
-export function reducer(state = initialState, action: DashboardActionsUnion): State {
+export function reducer(state = initialState, action: DashboardActionsUnion): DashboardState {
 
   switch (action.type) {
     case DashboardActionTypes.LOAD_DASHBOARDS: {
@@ -22,7 +22,7 @@ export function reducer(state = initialState, action: DashboardActionsUnion): St
     }
 
     case DashboardActionTypes.UPDATE_DASHBOARDS: {
-      return adapter.addAll(action.payload, state);
+      return adapter.addAll(action.payload.dashboards, state);
     }
 
     case DashboardActionTypes.FAIL_DASHBOARDS: {
@@ -32,7 +32,7 @@ export function reducer(state = initialState, action: DashboardActionsUnion): St
     }
 
     case DashboardActionTypes.ADD_DASHBOARD: {
-      return adapter.addOne(action.payload, state);
+      return adapter.addOne(action.payload.dashboard, state);
     }
 
     case DashboardActionTypes.UPDATE_DASHBOARD: {
@@ -57,4 +57,4 @@ export function reducer(state = initialState, action: DashboardActionsUnion): St
   }
 }
 
-export const getSelectedDashboardId = (state: State) => state.selectedDashboardId;
+export const getSelectedDashboardId = (state: DashboardState) => state.selectedDashboardId;

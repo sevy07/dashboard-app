@@ -44,7 +44,7 @@ describe('DashboardApiService', () => {
   }));
 
   it('can get dashboard w/ id', async(() => {
-    dashboardApiService.getDashboard(1)
+    dashboardApiService.getDashboard('1')
       .subscribe(
         dashboard => {
           expect(dashboard.title).toBe('Births');
@@ -54,7 +54,7 @@ describe('DashboardApiService', () => {
   }));
 
   it('should 404 when dashboard id not found', async(() => {
-    const id = 123456;
+    const id = '123456';
     dashboardApiService.getDashboard(id)
       .subscribe(
         () => fail(`should not have found dashboard for id='${id}'`),
@@ -65,7 +65,7 @@ describe('DashboardApiService', () => {
   }));
 
   it('should return undefined when dashboard id not found', async(() => {
-    const id = 123456;
+    const id = '123456';
     dashboardApiService.getDashboardNo404(id)
       .subscribe(
         dashboard => {
@@ -93,7 +93,7 @@ describe('DashboardApiService', () => {
   }), 10000);
 
   it('can delete a dashboard based on its id', async(() => {
-    const id = 1;
+    const id = '1';
     dashboardApiService.deleteDashboard(id)
       .subscribe(
         (_: {}) => {
@@ -104,7 +104,7 @@ describe('DashboardApiService', () => {
   }));
 
   it('can delete a dashboard by passing the dashboard itself', async(() => {
-    const dashboardToDelete = new Dashboard('test', '', 1);
+    const dashboardToDelete = new Dashboard('test', '', '1');
     dashboardApiService.deleteDashboard(dashboardToDelete)
       .subscribe(
         (_: {}) => {
@@ -115,7 +115,7 @@ describe('DashboardApiService', () => {
   }));
 
   it('should allow delete of non-existent dashboard', async(() => {
-    const id = 123456;
+    const id = '123456';
     dashboardApiService.deleteDashboard(id)
       .subscribe(
         (_: {}) => {
@@ -146,7 +146,7 @@ describe('DashboardApiService', () => {
   }));
 
   it('can update existing dashboard', async(() => {
-    const id = 1;
+    const id = '1';
     dashboardApiService.getDashboard(id).pipe(
       concatMap(dashboard => {
         dashboard.title = 'Thunderstorm';
@@ -164,7 +164,7 @@ describe('DashboardApiService', () => {
   }), 10000);
 
   it('should create new dashboard when try to update non-existent dashboard', async(() => {
-    const dashboardTest = new Dashboard('dashboardTest Title', 'dashboardTest description', 123456);
+    const dashboardTest = new Dashboard('dashboardTest Title', 'dashboardTest description', '123456');
     dashboardApiService.updateDashboard(dashboardTest)
       .subscribe(
         dashboard => {

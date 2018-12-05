@@ -1,11 +1,13 @@
+import { v4 } from 'uuid';
+
 export class Dashboard {
-  id: number;
+  id: string;
   title: string;
   description: string;
 
-  constructor(title, description?, id?) {
+  constructor(title: string, description?: string, id?: string) {
     this.title = title;
     this.description = description;
-    this.id = id;
+    this.id = id ? id : v4();
   }
 }

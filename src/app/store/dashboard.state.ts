@@ -7,7 +7,7 @@ export enum StateStatus {
   failed = 'failed'
 }
 
-export interface State extends EntityState<Dashboard> {
+export interface DashboardState extends EntityState<Dashboard> {
   // additional entities state properties
   selectedDashboardId: string | null;
 

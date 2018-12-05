@@ -14,9 +14,9 @@ export class DashboardEffect {
     .ofType<DashboardActions.LoadDashboards>(DashboardActionTypes.LOAD_DASHBOARDS)
     .pipe(
       switchMap(action =>
-        action.payload.pipe(
+        action.payload.request.pipe(
           // If successful, dispatch success action with result
-          map(reply => new DashboardActions.UpdateDashboards(reply)),
+          map(dashboards => new DashboardActions.UpdateDashboards({ dashboards: dashboards })),
           // If request fails, dispatch failed action
           catchError((err) => of(new DashboardActions.FailDashboards(err)))
         )

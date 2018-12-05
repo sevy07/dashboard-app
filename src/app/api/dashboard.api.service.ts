@@ -23,7 +23,7 @@ export class DashboardApiService {
   }
 
   // This get-by-id will 404 when id not found
-  getDashboard(id: number): Observable<Dashboard> {
+  getDashboard(id: string): Observable<Dashboard> {
     const url = `${this.dashboardsUrl}/${id}`;
     return this.http.get<Dashboard>(url).pipe(
       catchError(this.handleError)
@@ -31,7 +31,7 @@ export class DashboardApiService {
   }
 
   // This get-by-id does not 404; returns undefined when id not found
-  getDashboardNo404(id: number): Observable<Dashboard> {
+  getDashboardNo404(id: string): Observable<Dashboard> {
     const url = `${this.dashboardsUrl}/?id=${id}`;
     return this.http.get<Dashboard[]>(url).pipe(
       map(dashboards => dashboards[0] as Dashboard),
@@ -46,8 +46,8 @@ export class DashboardApiService {
     );
   }
 
-  deleteDashboard(dashboard: Dashboard | number): Observable<Dashboard> {
-    const id = typeof dashboard === 'number' ? dashboard : dashboard.id;
+  deleteDashboard(dashboard: Dashboard | string): Observable<Dashboard> {
+    const id = typeof dashboard === 'string' ? dashboard : dashboard.id;
     const url = `${this.dashboardsUrl}/${id}`;
 
     return this.http.delete<Dashboard>(url, cudOptions).pipe(

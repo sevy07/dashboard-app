@@ -20,13 +20,13 @@ export namespace DashboardActions {
   export class LoadDashboards implements Action {
     readonly type = DashboardActionTypes.LOAD_DASHBOARDS;
 
-    constructor(public payload: Observable<Dashboard[]>) { }
+    constructor(public payload: { request: Observable<Dashboard[]> }) { }
   }
 
   export class UpdateDashboards implements Action {
     readonly type = DashboardActionTypes.UPDATE_DASHBOARDS;
 
-    constructor(public payload: Dashboard[]) { }
+    constructor(public payload: { dashboards: Dashboard[] }) { }
   }
 
   export class FailDashboards implements Action {
@@ -38,7 +38,7 @@ export namespace DashboardActions {
   export class AddDashboard implements Action {
     readonly type = DashboardActionTypes.ADD_DASHBOARD;
 
-    constructor(public payload: Dashboard) { }
+    constructor(public payload: { dashboard: Dashboard }) { }
   }
 
   export class UpdateDashboard implements Action {
