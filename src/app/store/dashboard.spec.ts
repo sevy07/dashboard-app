@@ -164,7 +164,7 @@ describe('Dashboard store', () => {
       });
     });
 
-    describe('on SelectDashboard action', () => {
+    describe('on ClearSelection action', () => {
 
       const fullSelectedState = { ...fullState, selectedDashboardId: '1' };
 
@@ -180,7 +180,7 @@ describe('Dashboard store', () => {
         expect(state.stateStatus).toEqual(StateStatus.ready);
       });
 
-      it('should set the selected ID', () => {
+      it('should clear the selected ID', () => {
         const state = reducer(fullSelectedState, new DashboardActions.ClearSelection());
         expect(state.selectedDashboardId).toBeNull();
         expect(getSelectedDashboardId(state)).toBeNull();
