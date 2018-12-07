@@ -1,3 +1,15 @@
 <p>
   edit-dashboard works!
 </p>
+<pre>{{dashboard | json}}</pre>
+
+<form [formGroup]="dashBoardForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <span class="searchbox-icon"><i class="fa fa-search"></i></span>
+    <input [formControlName]="'title'" class="center-block fullwidth search" type="text" placeholder="Enter dashboard title">
+    <div class="error" *ngIf="dashBoardForm.get('title').touched && dashBoardForm.get('title').hasError('required')">
+      This field is required
+    </div>
+  </div>
+  <button type="submit">Save</button>
+</form>

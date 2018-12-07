@@ -63,6 +63,14 @@ export class DashboardService {
   }
 
   /**
+  * Upserts a dashboard to the collection of dashboards
+  * @param dashboard: the dashboards to add
+  */
+  public upsertDashboard(dashboard: Dashboard) {
+    this.store.dispatch(new DashboardActions.UpsertDashboard({ dashboard: dashboard }));
+  }
+
+  /**
    * Deletes a dashboard from the collection
    * @param id: the id of the dashboard to delete
    */

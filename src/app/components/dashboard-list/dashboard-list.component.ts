@@ -26,6 +26,10 @@ export class DashboardListComponent implements OnInit {
     this.service.clearSelectedDashboard();
   }
 
+  addDashboard() {
+    this.router.navigate(['/edit']);
+  }
+
   deleteDashboard(dashboard: Dashboard) {
     this.service.deleteDashboard(dashboard.id);
   }

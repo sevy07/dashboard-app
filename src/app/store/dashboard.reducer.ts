@@ -39,6 +39,10 @@ export function reducer(state = initialState, action: DashboardActionsUnion): Da
       return adapter.updateOne(action.payload.dashboard , state);
     }
 
+    case DashboardActionTypes.UPSERT_DASHBOARD: {
+      return adapter.upsertOne(action.payload.dashboard, state);
+    }
+
     case DashboardActionTypes.SELECT_DASHBOARD: {
       return { ...state, selectedDashboardId: action.payload.id };
     }

@@ -1,5 +1,5 @@
 <h2>Here are some dashboards </h2>
-<button>Add Dashboard</button>
+<button (click)="addDashboard()">Add Dashboard</button>
 <div *ngIf="selectedDashboardId$ | async as selectedDashboardId">
   {{selectedDashboardId}}
 </div>

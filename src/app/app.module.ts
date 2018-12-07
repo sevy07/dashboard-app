@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
@@ -29,6 +30,7 @@ import { DashboardListComponent, DisplayDashboardComponent, EditDashboardCompone
     AppRoutingModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(DashboardInMemoryDataApiService),
+    ReactiveFormsModule,
     StoreModule.forRoot({dashboard: dashboardReducer}),
     EffectsModule.forRoot([DashboardEffect]),
   ],

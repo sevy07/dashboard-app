@@ -11,6 +11,7 @@ export enum DashboardActionTypes {
 
   ADD_DASHBOARD = '[Dashboard] Add Dashboard',
   UPDATE_DASHBOARD = '[Dashboard] Update Dashboard',
+  UPSERT_DASHBOARD = '[Dashboard] Updsert Dashboard',
   DELETE_DASHBOARD = '[Dashboard] Delete Dashboard',
   SELECT_DASHBOARD = '[Dashboard] Select Dashboard',
   CLEAR_SELECTION = '[Dashboard] Clear selected Dashboard'
@@ -47,6 +48,12 @@ export namespace DashboardActions {
     constructor(public payload: { dashboard: Update<Dashboard> }) { }
   }
 
+  export class UpsertDashboard implements Action {
+    readonly type = DashboardActionTypes.UPSERT_DASHBOARD;
+
+    constructor(public payload: { dashboard: Dashboard }) { }
+  }
+
   export class SelectDashboard implements Action {
     readonly type = DashboardActionTypes.SELECT_DASHBOARD;
 
@@ -72,6 +79,7 @@ export type DashboardActionsUnion =
   | DashboardActions.FailDashboards
   | DashboardActions.AddDashboard
   | DashboardActions.UpdateDashboard
+  | DashboardActions.UpsertDashboard
   | DashboardActions.SelectDashboard
   | DashboardActions.ClearSelection
   | DashboardActions.DeleteDashboard;
