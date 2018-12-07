@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import { HighchartsChartModule } from 'highcharts-angular';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -28,6 +29,7 @@ import { DashboardListComponent, DisplayDashboardComponent, EditDashboardCompone
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HighchartsChartModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(DashboardInMemoryDataApiService),
     ReactiveFormsModule,

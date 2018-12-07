@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import * as Highcharts from 'highcharts';
+import * as dashboard1 from './mock-data/dashboard-1.json';
+
 import { DashboardService } from './services';
 
 @Component({
@@ -8,8 +11,8 @@ import { DashboardService } from './services';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'dashboard-app';
-
+  Highcharts = Highcharts;
+  chartOptions = dashboard1.default.elements.options;
   constructor(private service: DashboardService) { }
 
 
