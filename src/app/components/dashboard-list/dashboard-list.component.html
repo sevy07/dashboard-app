@@ -3,11 +3,11 @@
 <div *ngIf="selectedDashboardId$ | async as selectedDashboardId">
   {{selectedDashboardId}}
 </div>
-<div *ngIf="dashboards$ | async as dashboards">
-  <li *ngFor="let dashboard of dashboards">
-    <pre>{{dashboard | json}}</pre>
+<ul class="dashboards" *ngIf="dashboards$ | async as dashboards">
+  <li *ngFor="let dashboard of dashboards; let i=index"
+    (click)="displayDashboard(dashboard)">
+    <span class="badge">{{i + 1}}</span> {{dashboard.title}}
     <button (click)="deleteDashboard(dashboard)">Delete</button>
     <button (click)="editDashboard(dashboard)">Edit</button>
-    <button (click)="displayDashboard(dashboard)">Display</button>
   </li>
-</div>
+</ul>

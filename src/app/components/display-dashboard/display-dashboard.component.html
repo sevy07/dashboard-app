@@ -5,5 +5,9 @@
 <button (click)="goHome()">Home</button>
 
 <div *ngIf="dashboard$ | async as dashboard">
-  <pre>{{dashboard | json}}</pre>
+  <h2>{{dashboard.title}}</h2>
+  <div>{{dashboard.description}}</div>
+  <ng-container  *ngIf="dashboard.elements && dashboard.elements.length > 0">
+    <app-element [element]="dashboard.elements[0]"></app-element>
+  </ng-container>
 </div>

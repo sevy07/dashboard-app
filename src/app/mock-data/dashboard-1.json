@@ -2,7 +2,7 @@
   "id": "1",
   "title": "Births",
   "description": "The birth representation around the globe",
-  "elements": {
+  "elements": [{
     "options": {
   "chart": {
     "type": "area"
@@ -208,5 +208,5 @@
         }
       ]
     }
-  }
+  }]
 }

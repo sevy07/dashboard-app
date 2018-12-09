@@ -43,7 +43,7 @@ export class EditDashboardComponent implements OnInit {
         take(1)
       ).subscribe(() => this.router.navigate(['/display']));
       const rawDashboard: Dashboard = this.dashBoardForm.getRawValue();
-      const updatedDashboard = new Dashboard(rawDashboard.title, rawDashboard.description, rawDashboard.id);
+      const updatedDashboard = Object.assign({}, this.dashboard, rawDashboard);
       this.service.upsertDashboard(updatedDashboard);
       this.service.selectDashboard(rawDashboard.id);
 

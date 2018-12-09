@@ -16,7 +16,7 @@ import { DashboardApiService, DashboardInMemoryDataApiService } from './api';
 import { DashboardService } from './services';
 import { reducer as dashboardReducer, DashboardEffect} from './store';
 
-import { DashboardListComponent, DisplayDashboardComponent, EditDashboardComponent } from './components';
+import { DashboardListComponent, DisplayDashboardComponent, EditDashboardComponent, ElementComponent } from './components';
 
 
 @NgModule({
@@ -24,7 +24,8 @@ import { DashboardListComponent, DisplayDashboardComponent, EditDashboardCompone
     AppComponent,
     DashboardListComponent,
     DisplayDashboardComponent,
-    EditDashboardComponent
+    EditDashboardComponent,
+    ElementComponent
   ],
   imports: [
     BrowserModule,
