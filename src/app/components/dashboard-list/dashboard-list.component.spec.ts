@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 
+import { MatIconModule, MatListModule } from '@angular/material';
+
 import { Subject } from 'rxjs';
 
 import { DashboardService } from '../../services';
@@ -35,7 +37,7 @@ describe('DashboardListComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [MatIconModule, MatListModule, RouterTestingModule],
       declarations: [ DashboardListComponent ],
       providers: [{provide: DashboardService, useValue: dashboardServiceMock}]
     })
@@ -48,7 +50,26 @@ describe('DashboardListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create, and clear the selection on lodading', () => {
     expect(component).toBeTruthy();
+    expect(dashboardServiceMock.clearSelectedDashboard).toHaveBeenCalled();
   });
+
+  it('should delete a dashboard', () => {
+    component.deleteDashboard(new Dashboard('test'));
+    expect(dashboardServiceMock.deleteDashboard).toHaveBeenCalled();
+  });
+
+  it('should edit a dashboard', () => {
+    component.editDashboard(new Dashboard('test'));
+    expect(dashboardServiceMock.selectDashboard).toHaveBeenCalled();
+  });
+
+
+  it('should display a dashboard', () => {
+    component.displayDashboard(new Dashboard('test'));
+    expect(dashboardServiceMock.selectDashboard).toHaveBeenCalled();
+  });
+
+
 });

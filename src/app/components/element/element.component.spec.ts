@@ -1,4 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatCardModule, MatIconModule } from '@angular/material';
+
+import { HighchartsChartModule } from 'highcharts-angular';
 
 import { ElementComponent } from './element.component';
 
@@ -8,6 +11,7 @@ describe('ElementComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [HighchartsChartModule, MatCardModule, MatIconModule],
       declarations: [ ElementComponent ]
     })
     .compileComponents();

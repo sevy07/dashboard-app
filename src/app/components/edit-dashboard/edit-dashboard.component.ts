@@ -32,6 +32,7 @@ export class EditDashboardComponent implements OnInit {
     ).subscribe((dashboard) => {
       if (dashboard) {
         this.dashboard = dashboard;
+        this.populateForm();
       }
     });
     this.populateForm();
