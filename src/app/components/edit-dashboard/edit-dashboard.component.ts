@@ -41,7 +41,9 @@ export class EditDashboardComponent implements OnInit {
     this.dashBoardForm = this.fb.group({
       title: [this.dashboard.title],
       description: [this.dashboard.description],
-      elements: this.fb.array(this.dashboard.elements ? [this.dashboard.elements.map((element) => JSON.stringify(element))] : [''])
+      elements: this.fb.array(
+        this.dashboard.elements &&
+        this.dashboard.elements.length > 0 ? this.dashboard.elements.map((element) => JSON.stringify(element)) : [''])
     });
   }
 
