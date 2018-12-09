@@ -8,10 +8,10 @@
     <highcharts-chart [Highcharts]="Highcharts" [options]="options"></highcharts-chart>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-button>
+    <button mat-button (click)="deleteElement.emit()">
       <mat-icon>delete</mat-icon>
     </button>
-    <button mat-button>
+    <button mat-button (click)="editElement.emit()">
       <mat-icon>edit</mat-icon>
     </button>
   </mat-card-actions>

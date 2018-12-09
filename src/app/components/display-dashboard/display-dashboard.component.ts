@@ -26,7 +26,11 @@ export class DisplayDashboardComponent implements OnInit {
     this.router.navigate(['/home']);
   }
 
-  editDashboard() {
+  onEditDashboard() {
     this.router.navigate(['/edit']);
+  }
+
+  onDeleteElement(dashboard: Dashboard, elementId: number) {
+    this.service.updateDashboard({ ...dashboard, elements: dashboard.elements.filter((_, index) => index !== elementId)});
   }
 }

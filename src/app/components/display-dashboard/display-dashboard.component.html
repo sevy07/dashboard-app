@@ -6,6 +6,11 @@
   <h2>{{dashboard.title}}</h2>
   <h3>{{dashboard.description}}</h3>
   <ng-container  *ngIf="dashboard.elements && dashboard.elements.length > 0">
-    <app-element *ngFor="let element of dashboard.elements" [element]="element"></app-element>
+    <app-element
+      *ngFor="let element of dashboard.elements; let i=index"
+      [element]="element"
+      (editElement)="onEditDashboard()"
+      (deleteElement)="onDeleteElement(dashboard, i)">
+      </app-element>
   </ng-container>
 </div>

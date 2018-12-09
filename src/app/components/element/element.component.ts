@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import * as Highcharts from 'highcharts';
 
@@ -16,6 +16,12 @@ export class ElementComponent implements OnInit {
 
   @Input()
   element: Element;
+
+  @Output()
+  editElement: EventEmitter<void> = new EventEmitter<void>();
+
+  @Output()
+  deleteElement: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() { }
 
