@@ -25,4 +25,8 @@ export class DisplayDashboardComponent implements OnInit {
   goHome() {
     this.router.navigate(['/home']);
   }
+
+  editDashboard() {
+    this.router.navigate(['/edit']);
+  }
 }

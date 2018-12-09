@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { take } from 'rxjs/operators';
@@ -18,8 +18,12 @@ export class EditDashboardComponent implements OnInit {
 
   dashBoardForm: FormGroup;
 
+  get elements() {
+    return this.dashBoardForm.get('elements') as FormArray;
+  }
+
   constructor(private fb: FormBuilder, private service: DashboardService, private router: Router) {
-    this.dashboard = new Dashboard('new dashboard');
+    this.dashboard = new Dashboard('');
    }
 
   ngOnInit() {
@@ -34,7 +38,15 @@ export class EditDashboardComponent implements OnInit {
   }
 
   populateForm() {
-    this.dashBoardForm = this.fb.group(this.dashboard);
+    this.dashBoardForm = this.fb.group({
+      title: [this.dashboard.title],
+      description: [this.dashboard.description],
+      elements: this.fb.array(this.dashboard.elements ? [this.dashboard.elements.map((element) => JSON.stringify(element))] : [''])
+    });
+  }
+
+  addElement() {
+    this.elements.push(this.fb.control(''));
   }
 
   onSubmit() {
@@ -42,12 +54,17 @@ export class EditDashboardComponent implements OnInit {
       this.service.selectedDashboardId$.pipe(
         take(1)
       ).subscribe(() => this.router.navigate(['/display']));
-      const rawDashboard: Dashboard = this.dashBoardForm.getRawValue();
-      const updatedDashboard = Object.assign({}, this.dashboard, rawDashboard);
+      const rawDashboard = this.dashBoardForm.getRawValue();
+      const updatedDashboard = Object.assign({},
+        this.dashboard, rawDashboard, { elements: rawDashboard.elements.map((element) => element ? JSON.parse(element) : undefined )});
       this.service.upsertDashboard(updatedDashboard);
-      this.service.selectDashboard(rawDashboard.id);
+      this.service.selectDashboard(updatedDashboard.id);
 
     }
+  }
+
+  goHome() {
+    this.router.navigate(['/home']);
   }
 
 }

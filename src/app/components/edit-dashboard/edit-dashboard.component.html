@@ -1,15 +1,29 @@
-<p>
-  edit-dashboard works!
-</p>
-<pre>{{dashboard | json}}</pre>
+<button mat-mini-fab color="primary" (click)="goHome()">
+  <mat-icon>home</mat-icon>
+</button>
+
+  <h2>{{dashboard.title}}</h2>
+  <h3>{{dashboard.description}}</h3>
 
 <form [formGroup]="dashBoardForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
-    <span class="searchbox-icon"><i class="fa fa-search"></i></span>
-    <input [formControlName]="'title'" class="center-block fullwidth search" type="text" placeholder="Enter dashboard title">
-    <div class="error" *ngIf="dashBoardForm.get('title').touched && dashBoardForm.get('title').hasError('required')">
-      This field is required
-    </div>
+    <mat-form-field>
+      <input matInput [formControlName]="'title'" type="text" placeholder="Enter dashboard's title">
+    </mat-form-field>
+
+    <mat-form-field >
+      <input matInput [formControlName]="'description'" type="text" placeholder="Enter dashboard's description">
+    </mat-form-field>
+    <ng-container formArrayName="elements">
+        <mat-form-field *ngFor="let element of elements.controls; let i=index">
+          <textarea matInput placeholder="Textarea" [formControlName]="i" placeholder="Enter dashboard's element configuration"></textarea>
+        </mat-form-field>
+    </ng-container>
+
+    <button type="button" mat-mini-fab color="primary" (click)="addElement()">
+      <mat-icon>add</mat-icon>
+    </button>
+
   </div>
-  <button type="submit">Save</button>
+  <button mat-raised-button type="submit" color="primary">Save</button>
 </form>

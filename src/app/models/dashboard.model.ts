@@ -8,7 +8,7 @@ export class Dashboard {
   description: string;
   elements: Element[];
 
-  constructor(title: string, description?: string, id?: string, elements?: Element[]) {
+  constructor(title: string, description?: string, id?: string, elements: Element[] = []) {
     this.title = title;
     this.description = description;
     this.id = id ? id : v4();

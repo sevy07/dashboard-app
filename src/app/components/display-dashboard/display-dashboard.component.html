@@ -1,13 +1,11 @@
-<p>
-  display-dashboard works!
-</p>
-
-<button (click)="goHome()">Home</button>
+<button mat-mini-fab color="primary" (click)="goHome()">
+  <mat-icon>home</mat-icon>
+</button>
 
 <div *ngIf="dashboard$ | async as dashboard">
   <h2>{{dashboard.title}}</h2>
-  <div>{{dashboard.description}}</div>
+  <h3>{{dashboard.description}}</h3>
   <ng-container  *ngIf="dashboard.elements && dashboard.elements.length > 0">
-    <app-element [element]="dashboard.elements[0]"></app-element>
+    <app-element *ngFor="let element of dashboard.elements" [element]="element"></app-element>
   </ng-container>
 </div>

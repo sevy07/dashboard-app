@@ -1,13 +1,16 @@
 <h2>Here are some dashboards </h2>
-<button (click)="addDashboard()">Add Dashboard</button>
-<div *ngIf="selectedDashboardId$ | async as selectedDashboardId">
-  {{selectedDashboardId}}
-</div>
-<ul class="dashboards" *ngIf="dashboards$ | async as dashboards">
-  <li *ngFor="let dashboard of dashboards; let i=index"
+
+<mat-nav-list *ngIf="dashboards$ | async as dashboards">
+  <mat-list-item *ngFor="let dashboard of dashboards; let i=index"
     (click)="displayDashboard(dashboard)">
-    <span class="badge">{{i + 1}}</span> {{dashboard.title}}
-    <button (click)="deleteDashboard(dashboard)">Delete</button>
-    <button (click)="editDashboard(dashboard)">Edit</button>
-  </li>
-</ul>
+    <div class="mat-list-text">{{dashboard.title}}</div>
+    <button mat-mini-fab color="primary" (click)="editDashboard(dashboard)">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-mini-fab color="warn" (click)="deleteDashboard(dashboard)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-list-item>
+</mat-nav-list>
+
+<button mat-raised-button color="primary" (click)="addDashboard()">Add Dashboard</button>

@@ -1,0 +1,17 @@
+h2, h3 {
+  text-align: center;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  max-width: 900px;
+}
+
+textarea {
+  height: 200px
+}
+
+.mat-raised-button {
+  margin-top: 1rem;
+}
