@@ -3,6 +3,8 @@ import { MatCardModule, MatIconModule } from '@angular/material';
 
 import { HighchartsChartModule } from 'highcharts-angular';
 
+import { Element } from '../../models';
+
 import { ElementComponent } from './element.component';
 
 describe('ElementComponent', () => {
@@ -20,10 +22,18 @@ describe('ElementComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ElementComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create the component', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
+  });
+
+  it('should create the component with options', () => {
+    const element = new Element('test');
+    component.element = element;
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('mat-card-content')).toBeDefined();
   });
 });

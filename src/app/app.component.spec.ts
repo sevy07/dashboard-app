@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { EffectsModule } from '@ngrx/effects';
@@ -14,25 +14,36 @@ import { reducer as dashboardReducer, DashboardEffect} from './store';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
+  let app: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+
+  let dashboardServiceMock: { getDashboards: any };
+
   beforeEach(async(() => {
+
+    dashboardServiceMock = {
+      getDashboards: jasmine.createSpy('getDashboards')
+    };
+
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
-        HttpClientModule,
-        HttpClientInMemoryWebApiModule.forRoot(DashboardInMemoryDataApiService),
-        StoreModule.forRoot({dashboard: dashboardReducer}),
-        EffectsModule.forRoot([DashboardEffect]),
+        RouterTestingModule
       ],
-      providers: [DashboardApiService, DashboardService],
+      providers: [{ provide: DashboardService, useValue: dashboardServiceMock }],
       declarations: [
         AppComponent
       ],
     }).compileComponents();
   }));
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    app = fixture.debugElement.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should get dashboards on initialisation', () => {
     expect(app).toBeTruthy();
+    expect(dashboardServiceMock.getDashboards).toHaveBeenCalled();
   });
 });

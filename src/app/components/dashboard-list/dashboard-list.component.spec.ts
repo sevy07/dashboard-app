@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {RouterTestingModule} from '@angular/router/testing';
+import { Router } from '@angular/router';
 
 import { MatIconModule, MatListModule } from '@angular/material';
 
@@ -18,6 +18,8 @@ describe('DashboardListComponent', () => {
   let component: DashboardListComponent;
   let fixture: ComponentFixture<DashboardListComponent>;
 
+  let mockRouter: { navigate: any };
+
   let dashboardServiceMock: {
     selectedDashboardId$: any,
     dashboards$: any
@@ -28,6 +30,10 @@ describe('DashboardListComponent', () => {
 
   beforeEach(async(() => {
 
+    mockRouter = {
+      navigate: jasmine.createSpy('navigate')
+    };
+
     dashboardServiceMock = {
       dashboards$: subjectDashboards,
       selectedDashboardId$: subjectDashboardId,
@@ -37,9 +43,9 @@ describe('DashboardListComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [MatIconModule, MatListModule, RouterTestingModule],
+      imports: [MatIconModule, MatListModule],
       declarations: [ DashboardListComponent ],
-      providers: [{provide: DashboardService, useValue: dashboardServiceMock}]
+      providers: [{ provide: DashboardService, useValue: dashboardServiceMock }, { provide: Router, useValue: mockRouter }]
     })
     .compileComponents();
   }));
@@ -60,15 +66,24 @@ describe('DashboardListComponent', () => {
     expect(dashboardServiceMock.deleteDashboard).toHaveBeenCalled();
   });
 
-  it('should edit a dashboard', () => {
+  it('should edit a dashboard', async(() => {
     component.editDashboard(new Dashboard('test'));
+    subjectDashboardId.next('1');
     expect(dashboardServiceMock.selectDashboard).toHaveBeenCalled();
-  });
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/edit']);
+  }));
 
 
-  it('should display a dashboard', () => {
+  it('should display a dashboard', async(() => {
     component.displayDashboard(new Dashboard('test'));
+    subjectDashboardId.next('1');
     expect(dashboardServiceMock.selectDashboard).toHaveBeenCalled();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/display']);
+  }));
+
+  it('should add a dashboard', () => {
+    component.addDashboard();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/edit']);
   });
 
 

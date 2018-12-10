@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule, MatInputModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 
 import { Subject } from 'rxjs';
 
@@ -26,6 +26,9 @@ describe('EditDashboardComponent', () => {
     upsertDashboard: any,
   };
 
+  let mockRouter: { navigate: any };
+
+
   beforeEach(async(() => {
 
     dashboardServiceMock = {
@@ -35,10 +38,14 @@ describe('EditDashboardComponent', () => {
       upsertDashboard: jasmine.createSpy('upsertDashboard')
     };
 
+    mockRouter = {
+      navigate: jasmine.createSpy('navigate')
+    };
+
     TestBed.configureTestingModule({
-      imports: [MatIconModule, MatInputModule, NoopAnimationsModule, ReactiveFormsModule, RouterTestingModule],
+      imports: [MatIconModule, MatInputModule, NoopAnimationsModule, ReactiveFormsModule],
       declarations: [ EditDashboardComponent ],
-      providers: [{ provide: DashboardService, useValue: dashboardServiceMock }]
+      providers: [{ provide: DashboardService, useValue: dashboardServiceMock }, { provide: Router, useValue: mockRouter }]
     })
     .compileComponents();
   }));
@@ -49,12 +56,41 @@ describe('EditDashboardComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
   it('should initaite with a seleted dashboard', async(() => {
-    subjectDashboard.next(new Dashboard('test', 'test', undefined, [new Element(), new Element()]));
+    subjectDashboard.next(new Dashboard('test', 'test', undefined, [new Element('test', {}, () => {}, false, false), new Element()]));
     expect(component.dashBoardForm.getRawValue().title).toEqual('test');
   }));
+
+  it('should navigate home when clicking on go home', () => {
+    component.goHome();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/home']);
+  });
+
+  it('should add an element', () => {
+    component.addElement();
+    expect(component.elements.controls.length).toEqual(2);
+  });
+
+  describe('edit dashboard form', () => {
+    it('should not attepmt to submit an invalid form', () => {
+      component.dashBoardForm.setErrors({required: 'dummy error'});
+      fixture.detectChanges();
+      component.onSubmit();
+      expect(dashboardServiceMock.selectDashboard).not.toHaveBeenCalled();
+      expect(dashboardServiceMock.upsertDashboard).not.toHaveBeenCalled();
+    });
+
+    it('should submit a valid form with elements', async(() => {
+      subjectDashboard.next(new Dashboard('test', 'test', undefined, [new Element(), new Element()]));
+      component.onSubmit();
+      expect(dashboardServiceMock.selectDashboard).toHaveBeenCalled();
+      expect(dashboardServiceMock.upsertDashboard).toHaveBeenCalled();
+    }));
+
+    it('should submit a valid form with elements', () => {
+      component.onSubmit();
+      expect(dashboardServiceMock.selectDashboard).toHaveBeenCalled();
+      expect(dashboardServiceMock.upsertDashboard).toHaveBeenCalled();
+    });
+  });
 });
